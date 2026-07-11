@@ -49,7 +49,7 @@ checkButton.addEventListener("click", function() {
 	
  
 	
-	usedAnswer.push(selectAgent.name);
+	
 	
 	const selectedAgent = agents.find(function(agent){
 		return agent.name === userAnswer;
@@ -67,6 +67,8 @@ checkButton.addEventListener("click", function() {
 		return;
 		
 	};
+	
+	usedAnswer.push(selectAgent.name);
 	
 	
 	if (selectedAgent.name === correctAnswer.name) {
