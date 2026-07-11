@@ -47,12 +47,7 @@ checkButton.addEventListener("click", function() {
 		return;		
 	};
 	
- if (usedAnswer.includes(selectAgent.name)){
-		result.textContent = "Agen";
-		result.className = "wrong";
-		return;
-		
-	};
+ 
 	
 	usedAnswer.push(selectAgent.name);
 	
@@ -66,7 +61,12 @@ checkButton.addEventListener("click", function() {
 		return;
 	};
 	
-	
+	if (usedAnswer.includes(selectAgent.name)){
+		result.textContent = "Agen";
+		result.className = "wrong";
+		return;
+		
+	};
 	
 	
 	if (selectedAgent.name === correctAnswer.name) {
