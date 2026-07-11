@@ -65,7 +65,6 @@ checkButton.addEventListener("click", function() {
 		result.textContent = "Agen";
 		result.className = "wrong";
 		return;
-		
 	};
 	
 	usedAnswer.push(selectAgent.name);
