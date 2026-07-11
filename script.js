@@ -30,6 +30,8 @@ const result = document.querySelector("#result");
 const attempts = document.querySelector("#attempts")
 
 const correctAnswer = agents[0];
+
+const usedAnswer = [];
 // 2. Следить за нажатием
 
 
@@ -44,6 +46,15 @@ checkButton.addEventListener("click", function() {
 		result.className = "wrong";
 		return;		
 	};
+	
+ if (usedAnswer.includes(selectAgent.name)){
+		result.textContent = "Agen";
+		result.className = "wrong";
+		return;
+		
+	};
+	
+	usedAnswer.push(selectAgent.name);
 	
 	const selectedAgent = agents.find(function(agent){
 		return agent.name === userAnswer;
