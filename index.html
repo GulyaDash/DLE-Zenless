@@ -2,25 +2,97 @@
 <html lang="ru">
  <head>
 	<meta charset="UTF-8">
+	<meta 
+		name= "vieport"
+		content= "width=device-width, initial-scale=1.0"
+	>
 	<title>DLE Zenlis</title>
 	<link rel="stylesheet" href="style.css">
 	 
 </head>
 
 <body>
+	
+	
 	<div class="game">
 		<h1>DLE Zenlis</h1>
 		<p> Найди персонажа </p>
-		<input id="answerInput" type="text" placeholder="Texting">
+			
+			
+		<div class="search-box">
+			
+		<input 
+			id="answerInput" 
+			type="text" 
+			placeholder="Texting"
+			>
+		<div 
+			id = "agentSuggestions" 
+			class="suggestions"
+		></div>
+		</div>
+	
 		<button id="checkButton">PUSH</button>
 		
+		<button id="statsButton" type="button"> Statistics</button>
+
+		
 		<div class="viv">
-			<div id="result"></div>
-			<div id="attempts"></div>
+			<p>Tray: <span id = "attemptCount">0</span> </p>
+		
+			
+			<div class="attempts-scroll">
+				<div class="attempts-header">
+					<span>Name</span>
+					<span>Race</span>
+					<span>Rank</span>
+					<span>Specialty</span>
+					<span>Attribute</span>
+					<span>Type</span>
+					<span>Faction</span>
+					<span>Boss</span>
+					<span>Material</span>
+				</div>
+			
+				<div id="attempts"></div>
+			</div>
 		</div>
 		
 	</div>
 	
+	<dialog id="statsDialog">
+		<button id="closeStatsButton"type="button"> Clouse</button>
+		<h2> Statistics </h2>
+		
+		<div class="stats-grid">
+			<p> Completed Games: <span id ="statsGames">0</span></p>
+			<p> All Tray: <span id ="statsAttempts">0</span></p>
+			<p> Average Streak: <span id ="statsAverage">0</span></p>
+			<p> Win Streak: <span id ="statsCurrentStreak">0</span></p>
+			<p> Best Streak: <span id ="statsBestStreak">0</span></p>
+			
+			<button id="resetStatsButton" type="button">
+				Relode all static
+			</button>
+		</div>
+		
+		<div class="save-transfer">
+			<h3>Create or Load saves</h3>
+
+			<textarea id="saveCodeField" placeholder="Cod saves" rows="5"></textarea>
+
+			<div class="save-buttons">
+				<button id="createSaveCodeButton" type="button"> Create Code </button>
+				<button id="loadSaveCodeButton" type="button"> Load Code </button>
+			</div>
+		</div>
+	</dialog>
+	
+	
+	
+	
+	<script src="Data/function.js"> </script>
+	<script src="Data/agent.js"></script>
 	<script src="script.js"> </script>
 	
 

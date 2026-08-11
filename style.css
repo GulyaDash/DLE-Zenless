@@ -21,7 +21,8 @@ button {
 }
 
 .game {
-	max-width: 600px;
+	width:100%;
+	max-width: 1150px;
 	padding: 20px;
 	background: #333;
 	border-radius: 12px;
@@ -35,21 +36,249 @@ button {
 }
 
 .correct{
+	background: #2f7d32;
 	color: lightgreen;
 }
 
 .wrong{
+	background: #7d2f2f;
 	color: salmon;
 }
 
 .mybi{
-	color: orange;
+	background: #997520;
+	color: #f5bf42;
 }
 
-#result {
-  white-space: pre-line;
-}
 
 #attempts {
   white-space: pre-line;
+}
+
+.attempts-header,
+.attempt-row {
+	display: grid;
+	grid-template-columns:repeat(9, 116px);	
+	gap: 8px;
+	width: max-content;
+	
+}
+
+.attempts-header {
+	margin-top: 16px;
+	font-weight: bold;
+	
+}
+
+.attempt-row {
+	margin-top: 6px;
+}
+
+
+.attempts-header span,
+.attempt-row span{
+	width:100%;
+	min-width:0;
+	padding: 8px;
+	border-radius: 6px;
+	background: #555;
+	
+}
+
+.attempt-row span.correct{
+	background: #2f7d32;
+	color: white;
+}
+
+.attempt-row span.wrong{
+	background: #7d2f2f;
+	color: white;
+}
+
+.attempt-row span.partial {
+  background: #c77700;
+  color: white;
+}
+
+.attempts-scroll {
+	max-width: 100%;
+	overflow-x: auto;
+	padding-bottom:8px;
+	
+}
+
+* {
+	box-sizing: border-box;
+}
+
+.agent-avatar {
+	width:100px;
+	height:100px;
+	object-fit:cover;
+	Border-radius: 8px;
+	display:block;
+	
+}
+
+
+
+.suggestion-item{
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	width: 212px;
+	background: #444;
+	color: white;
+	border: none;
+	text-align: left;
+}
+
+.suggestion-avatar {
+	width: 40px;
+	height: 40px;
+	object-fit: cover;
+	border-radius: 6px;
+	
+}
+
+.search-box {
+	position: relative;
+	display: inline-block;
+	margin-right: 10px;
+	vertical-align: top;
+	
+}
+
+.search-box input{
+	margin-right: 0;
+}
+
+.suggestions {
+	position: absolute;
+	top: calc(100% + 4px);
+	left: 0;
+	width:100%;
+	z-index: 10;
+	background: #444;
+	Border-radius:6px;
+	max-height: 220px;
+	overflow-y: auto;
+}
+
+.suggestion-item{
+	width: 100%;
+}
+
+.suggestions-empty{
+	max-height: 220px;
+	padding: 12px;
+	
+	color:#bbb;
+	background: #444;
+	
+}
+
+.suggestion-item.is-selected{
+	background: #777;
+	outline: 2px solid #aaa;
+}
+
+.category-icon {
+	width: 100px;
+	height: 100px;
+	object-fit: contain;
+	display: block;
+	margin: 0 auto;
+}
+
+
+#statsDialog {
+  width: min(500px, calc(100% - 32px));
+  padding: 24px;
+  border: none;
+  border-radius: 12px;
+  background: #333;
+  color: white;
+}
+
+#statsDialog::backdrop {
+  background: rgba(0, 0, 0, 0.7);
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+.stats-grid p {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 12px;
+  margin: 0;
+  border-radius: 8px;
+  background: #555;
+}
+
+.stats-grid span {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.save-transfer {
+  margin-top: 10px;
+}
+
+#saveCodeField {
+  width: 100%;
+  padding: 10px;
+  resize: vertical;
+  font-family: monospace;
+}
+
+.save-buttons {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+
+
+
+
+
+
+
+
+
+@media (max-width: 480px){
+	body {
+		margin: 0;
+		padding: 12px;
+	}
+	
+	.game{
+		width:100%;
+		padding: 16px;
+		
+	}
+	
+	.search-box {
+		display: block;
+		width: 100%;
+		margin-right: 0;
+		
+	}
+	
+	.search-box input{
+		width: 100%
+		
+	}
+	
+	#checkButton{
+		width:100%;
+		margin-top: 8px;
+	}
+	
 }
