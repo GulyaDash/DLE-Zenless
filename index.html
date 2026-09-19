@@ -1,100 +1,593 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
  <head>
 	<meta charset="UTF-8">
-	<meta 
-		name= "vieport"
-		content= "width=device-width, initial-scale=1.0"
+	<meta
+		name = "viewport"
+		content = "width=device-width, initial-scale=1.0"
 	>
-	<title>DLE Zenlss</title>
+	
+	<meta
+		name="description"
+
+		content="Guess Zenless Zone Zero agents and Bangboo in daily Classic, Endless, and Bangboo modes."
+	>
+	
+	<meta name="theme-color" content="#202020">
+	<title>DLE Zenless — Zenless Zone Zero Guessing Game</title>
 	<link rel="stylesheet" href="style.css">
-	 
+	<link rel="icon" href="favicon.svg" type="image/svg+xml">
+
 </head>
 
 <body>
-	
-	
-	<div class="game">
-		<h1>DLE Zenless</h1>
-		<p> Найди персонажа </p>
-			
-			
-		<div class="search-box">
-			
-		<input 
-			id="answerInput" 
-			type="text" 
-			placeholder="Texting"
-			>
-		<div 
-			id = "agentSuggestions" 
-			class="suggestions"
-		></div>
-		</div>
-	
-		<button id="checkButton">PUSH</button>
-		
-		<button id="statsButton" type="button"> Statistics</button>
-
-		
-		<div class="viv">
-			<p>Tray: <span id = "attemptCount">0</span> </p>
-		
-			
-			<div class="attempts-scroll">
-				<div class="attempts-header">
-					<span>Name</span>
-					<span>Race</span>
-					<span>Rank</span>
-					<span>Specialty</span>
-					<span>Attribute</span>
-					<span>Type</span>
-					<span>Faction</span>
-					<span>Boss</span>
-					<span>Material</span>
-				</div>
-			
-				<div id="attempts"></div>
-			</div>
-		</div>
-		
-	</div>
-	
-	<dialog id="statsDialog">
-		<button id="closeStatsButton"type="button"> Clouse</button>
-		<h2> Statistics </h2>
-		
-		<div class="stats-grid">
-			<p> Completed Games: <span id ="statsGames">0</span></p>
-			<p> All Tray: <span id ="statsAttempts">0</span></p>
-			<p> Average Streak: <span id ="statsAverage">0</span></p>
-			<p> Win Streak: <span id ="statsCurrentStreak">0</span></p>
-			<p> Best Streak: <span id ="statsBestStreak">0</span></p>
-			
-			<button id="resetStatsButton" type="button">
-				Relode all static
+	<nav class="game-navigation">
+		<div class="category-tabs">
+			<button class="category-tab active" type="button" data-category="agent"  aria-pressed="true" data-i18n="navigationAgents">
+				Agent
 			</button>
+			<button	class="category-tab" type="button" data-category="bangbo"  aria-pressed="false" data-i18n="navigationBangboo">
+				Bangboo
+			</button>
+
+
+			<div class="global-actions">
+				<button id="rulesButton" type="button" data-i18n="navigationRules">
+					Rules
+				</button>
+
+				<button id="statsButton" type="button" data-i18n="navigationStatistics">
+					Statistics
+				</button>
+				
+				<a
+					class="kofi-link"
+					href="https://ko-fi.com/pichjei"
+					target="_blank"
+					rel="noopener noreferrer"
+					aria-label="Support me on Ko-fi"
+					title="Ko-fi"
+				>
+					<img
+						src="Data/Image/UI/kofi_symbol.svg"
+						alt=""
+						aria-hidden="true"
+					>
+				</a>
+
+				<button id="languageButton" type="button">
+					RU
+				</button>
+			</div>
+
 		</div>
-		
-		<div class="save-transfer">
-			<h3>Create or Load saves</h3>
 
-			<textarea id="saveCodeField" placeholder="Cod saves" rows="5"></textarea>
 
-			<div class="save-buttons">
-				<button id="createSaveCodeButton" type="button"> Create Code </button>
-				<button id="loadSaveCodeButton" type="button"> Load Code </button>
+
+		<div class="mode-tabs">
+			<button class="mode-tab active" type="button" data-mode="classic" aria-pressed="true" data-i18n="navigationClassic">Classic</button>
+			<button	class="mode-tab" type="button" data-mode="endless" aria-pressed="false" data-i18n="navigationEndless">Endless</button>
+		</div>
+	</nav>
+
+		<div class="mode-panel active" data-panel="classic">
+
+			<div class="game">
+				<h1>DLE Zenless</h1>
+
+
+				<div class="search-box">
+
+				<input
+					id="answerInput"
+					type="text"
+					placeholder="Enter an agent"
+					data-i18n-placeholder="agentInputPlaceholder"
+					>
+				<div
+					id = "agentSuggestions"
+					class="suggestions"
+				></div>
+				</div>
+
+				<div id="classicResultCard" class="classic-result-card" hidden>
+					<img
+						id="classicResultPortrait"
+						class="classic-result-portrait"
+						alt=""
+					>
+
+					<div class="classic-result-info">
+						<p data-i18n="classicRoundWon">Agent guessed!</p>
+
+						<strong id="classicResultName"></strong>
+
+						<p>
+							<span data-i18n="classicResultTries">Tries:</span>
+							<span id="classicResultTriesCount"></span>
+						</p>
+					</div>
+					
+					<div
+						id="classicDailyTimer"
+						class="daily-reset-timer"
+						hidden
+					>
+						<span data-i18n="nextPuzzleIn">
+							Next puzzle in
+						</span>
+
+						<strong class="daily-reset-time">
+							00:00:00
+						</strong>
+
+						<button
+							class="daily-reset-reload"
+							type="button"
+							data-i18n="reloadNewPuzzle"
+							hidden
+						>
+							Load new puzzle
+						</button>
+					</div>
+
+					<button id="classicShareButton" type="button" data-i18n="shareResultButton">
+						Share
+					</button>
+
+					<div id="classicShareFeedback" class="classic-share-feedback" hidden>
+						<p id="classicShareStatus" role="status"></p>
+
+						<textarea
+							id="classicShareText"
+							rows="6"
+							readonly
+							hidden
+							aria-labelledby="classicShareButton"
+						></textarea>
+					</div>
+
+				</div>
+
+
+
+
+
+
+				<div class="viv">
+
+
+					<div class="attempts-scroll">
+						<div class="attempts-header">
+							<span data-i18n="tableName">Name</span>
+							<span data-i18n="tableRace">Race</span>
+							<span data-i18n="tableRank">Rank</span>
+							<span data-i18n="tableSpecialty">Specialty</span>
+							<span data-i18n="tableAttribute">Attribute</span>
+							<span data-i18n="tableType">Type</span>
+							<span data-i18n="tableFaction">Faction</span>
+							<span data-i18n="tableBoss">Boss</span>
+							<span data-i18n="tableMaterial">Material</span>
+						</div>
+
+						<div id="attempts"></div>
+					</div>
+				</div>
+
 			</div>
 		</div>
-	</dialog>
-	
-	
-	
-	
+
+		<div class="mode-panel" data-panel="endless">
+			 <div class="game">
+				<h1 data-i18n="navigationEndless">Endless</h1>
+
+				<div class="endless-search-row">
+					<div class="search-box">
+						<input
+							id="endlessAnswerInput"
+							type="text"
+							placeholder="Enter an agent"
+							data-i18n-placeholder="agentInputPlaceholder">
+
+						<div id="endlessAgentSuggestions" class="suggestions"></div>
+					</div>
+
+					<div class="endless-round-status">
+						<div class="endless-attempt-squares" aria-label="Attempts">
+							<span class="endless-attempt-square"></span>
+							<span class="endless-attempt-square"></span>
+							<span class="endless-attempt-square"></span>
+							<span class="endless-attempt-square"></span>
+							<span class="endless-attempt-square"></span>
+						</div>
+
+						<div class="endless-score-counter">
+							<span data-i18n="endlessScoreTitle">Score</span>
+							<strong id="endlessScore">0</strong>
+						</div>
+					</div>
+
+
+
+				</div>
+
+				<div id="endlessResultCard" class="endless-result-card" hidden>
+					<img id="endlessResultPortrait" class="endless-result-portrait" alt="">
+
+					<div class="endless-result-info">
+						<p id="endlessResultMessage" role="status"></p>
+						<strong id="endlessResultName"></strong>
+					</div>
+
+					<button id="endlessNextButton" type="button" data-i18n="endlessNextRound">
+						Next
+					</button>
+				</div>
+
+
+				<div class="attempts-scroll">
+					<div class="attempts-header">
+						<span data-i18n="tableName">Name</span>
+						<span data-i18n="tableRace">Race</span>
+						<span data-i18n="tableRank">Rank</span>
+						<span data-i18n="tableSpecialty">Specialty</span>
+						<span data-i18n="tableAttribute">Attribute</span>
+						<span data-i18n="tableType">Type</span>
+						<span data-i18n="tableFaction">Faction</span>
+						<span data-i18n="tableBoss">Boss</span>
+						<span data-i18n="tableMaterial">Material</span>
+					</div>
+
+					<div id="endlessAttempts"></div>
+				</div>
+			</div>
+		</div>
+
+		<div class="mode-panel" data-panel="bangbo">
+			<div class="game bangboo-game">
+				<div class="bangboo-question-card">
+					<img
+						id="bangbooPortrait"
+						class="bangboo-portrait"
+						src="Data/Image/Bangboo/Portrait/Base_Bangboo_Portrait.webp"
+						alt="Загаданный Bangboo"
+					>
+
+						<div class="bangboo-question-content">
+							<h1 data-i18n="bangbooQuestionTitle">What is Bangboo?</h1>
+
+							<p id="bangbooMaskedName" class="bangboo-masked-name">???BOO</p>
+							
+							
+							
+							<div class="bangboo-input-row">
+								<div class="search-box bangboo-search-box">
+									<input
+										id="bangbooAnswerInput"
+										type="text"
+										placeholder="Enter a Bangboo"
+										data-i18n-placeholder="bangbooInputPlaceholder"
+										autocomplete="off"
+									>
+								
+									<div id="bangbooSuggestions" class="suggestions"></div>
+								</div>
+								
+								<div
+									id="bangbooShareControls"
+									class="bangboo-share-controls"
+									hidden
+								>
+
+									<button id="bangbooShareButton" type="button" data-i18n="shareResultButton">
+										Share
+									</button>
+								</div>
+							</div>
+							
+							<div
+								id="bangbooDailyTimer"
+								class="daily-reset-timer"
+								hidden
+							>
+								<span data-i18n="nextPuzzleIn">
+									Next puzzle in
+								</span>
+
+								<strong class="daily-reset-time">
+									00:00:00
+								</strong>
+
+								<button class="daily-reset-reload" type="button" data-i18n="reloadNewPuzzle" hidden>
+									Load new puzzle
+								</button>
+							</div>
+
+							<div id="bangbooShareFeedback" class="bangboo-share-feedback" hidden>
+								<p id="bangbooShareStatus" role="status"></p>
+
+								<textarea
+									id="bangbooShareText"
+									rows="6"
+									readonly
+									hidden
+									aria-labelledby="bangbooShareButton"
+								></textarea>
+							</div>
+						
+
+
+
+
+
+
+								
+
+						</div>
+				</div>
+
+				<div id="bangbooHints" class="bangboo-hints">
+
+					<div class="bangboo-hint" data-hint-slot="0"><span>?</span></div>
+					<div class="bangboo-hint" data-hint-slot="1"><span>?</span></div>
+					<div class="bangboo-hint" data-hint-slot="2"><span>?</span></div>
+					<div class="bangboo-hint" data-hint-slot="3"><span>?</span></div>
+				</div>
+
+				<div id="bangbooAttempts" class="bangboo-attempts"></div>
+
+			</div>
+		</div>
+
+		<dialog id="rulesDialog" aria-labelledby="rulesDialogTitle">
+			<div class="rules-dialog-header">
+				<h2 id="rulesDialogTitle" data-i18n="rulesDialogTitle">Game Rules</h2>
+
+				<button id="closeRulesButton" type="button"  data-i18n="closeButton">
+					Close
+				</button>
+			</div>
+
+			<div class="rules-content">
+				<section class="rules-section">
+					<h3 data-i18n="classicRulesTitle">Classic</h3>
+
+					<p data-i18n="classicRulesIntro">
+					After each guess, every characteristic is compared
+					with the correct agent.
+					</p>
+
+					<div class="rule-color-grid">
+						<div class="rule-color-card">
+							<span class="rule-color-square rule-correct" aria-hidden="true" ></span>
+
+							<div>
+								<strong data-i18n="correctMatchTitle">Correct</strong>
+
+								<p data-i18n="correctMatchText">The characteristic matches.</p>
+							</div>
+						</div>
+
+						<div class="rule-color-card">
+							<span class="rule-color-square rule-wrong" aria-hidden="true" ></span>
+
+							<div>
+								<strong data-i18n="wrongMatchTitle"> Incorrect </strong>
+
+								<p data-i18n="wrongMatchText">The characteristic does not match.</p>
+							</div>
+						</div>
+
+						<div class="rule-color-card">
+							<span class="rule-color-square rule-partial"aria-hidden="true"></span>
+
+							<div>
+								<strong data-i18n="partialMatchTitle">Partial</strong>
+
+								<p data-i18n="partialMatchText">The characteristic partially matches.</p>
+							</div>
+						</div>
+					</div>
+
+					<h4 data-i18n="raceCategoriesTitle">Race categories</h4>
+
+					<p data-i18n="raceCategoriesIntro">Agents are divided into four race categories.</p>
+
+					<div class="rule-race-grid">
+						<figure class="rule-race-card">
+							<img src="Data/Image/Race/People.svg"alt="People">
+
+							<figcaption data-i18n="racePeople">People</figcaption>
+						</figure>
+
+						<figure class="rule-race-card">
+							<img src="Data/Image/Race/Construct.svg" alt="Constructs">
+
+							<figcaption data-i18n="raceConstructs">Constructs</figcaption>
+						</figure>
+
+						<figure class="rule-race-card">
+							<img src="Data/Image/Race/Thiren.svg" alt="Thirens">
+
+							<figcaption data-i18n="raceThirens">Thirens</figcaption>
+						</figure>
+
+						<figure class="rule-race-card">
+							<img src="Data/Image/Race/Others.svg" alt="Others">
+
+							<figcaption data-i18n="raceOthers">Others</figcaption>
+						</figure>
+					</div>
+
+					<p class="rule-note" data-i18n="raceOthersExplanation">
+						Others includes rare races that do not belong to
+						the three main categories.
+					</p>
+				</section>
+
+				<section class="rules-section">
+					<h3 data-i18n="endlessRulesTitle">Endless</h3>
+
+					<p data-i18n="endlessRulesIntro">
+						Guess as many agents as possible without a daily limit.
+						Characteristics are compared in the same way as in Classic mode.
+					</p>
+
+					<div class="endless-rules-grid">
+						<div class="endless-rule-card">
+							<strong data-i18n="endlessAttemptsTitle">5 tries</strong>
+
+							<div class="attempt-example" aria-hidden="true">
+								<span></span>
+								<span></span>
+								<span></span>
+								<span></span>
+								<span></span>
+							</div>
+
+							<p data-i18n="endlessAttemptsText">You have five tries to guess each agent.</p>
+						</div>
+
+						<div class="endless-rule-card">
+							<strong data-i18n="endlessScoreTitle">Score</strong>
+
+							<div class="score-example" aria-hidden="true">12</div>
+
+							<p data-i18n="endlessScoreText">
+								The score shows how many agents you have guessed.
+							</p>
+						</div>
+					</div>
+				</section>
+
+				<section class="rules-section">
+					<h3 data-i18n="bangbooRulesTitle">Bangboo</h3>
+
+					<p data-i18n="bangbooRulesIntro">
+						Guess the hidden Bangboo using the available clues.
+					</p>
+
+					<p data-i18n="bangbooFirstHint">
+						The first clue is available at the beginning of the round.
+						Each incorrect guess reveals the next clue.
+					</p>
+
+					<div class="bangboo-rule-hints">
+						<div class="bangboo-rule-hint">
+							<span class="bangboo-rule-number">1</span>
+							<strong data-i18n="bangbooHintRank">Rank</strong>
+						</div>
+
+						<div class="bangboo-rule-hint">
+							<span class="bangboo-rule-number">2</span>
+							<strong data-i18n="bangbooHintAttribute">Attribute</strong>
+						</div>
+
+						<div class="bangboo-rule-hint">
+							<span class="bangboo-rule-number">3</span>
+							<strong data-i18n="bangbooHintEyes">Eyes</strong>
+						</div>
+
+						<div class="bangboo-rule-hint">
+							<span class="bangboo-rule-number">4</span>
+							<strong data-i18n="bangbooHintEmoji">Emoji</strong>
+						</div>
+					</div>
+				</section>
+			</div>
+		</dialog>
+
+		<dialog id="statsDialog" aria-labelledby="statsDialogTitle">
+			<div class="stats-dialog-actions">
+				<button id="closeStatsButton"type="button" data-i18n="closeButton">Close</button>
+				<button id="resetStatsButton" type="button" data-i18n="statsResetAll">Reset All Statistics</button>
+			</div>
+
+			<h2 id="statsDialogTitle" data-i18n="statsDialogTitle"> Statistics </h2>
+
+			<h3 data-i18n="statsAgentsTitle">Agents</h3>
+
+			<div class="stats-grid">
+
+				<p>
+					<span class="stats-label" data-i18n="statsCompletedGames">Completed Games:</span>
+					<span class="stats-value" id ="statsGames">0</span>
+				</p>
+
+				<p>
+					<span class="stats-label" data-i18n="statsTotalTries">Total Tries:</span>
+					<span class="stats-value" id ="statsAttempts">0</span>
+				</p>
+
+				<p>
+					<span class="stats-label" data-i18n="statsAverageTries">Average Tries:</span>
+					<span class="stats-value" id ="statsAverage">0</span>
+				</p>
+
+				<p>
+					<span class="stats-label" data-i18n="statsCurrentStreak">Win Streak:</span>
+					<span class="stats-value" id ="statsCurrentStreak">0</span>
+				</p>
+
+				<p>
+					<span class="stats-label" data-i18n="statsBestStreak">Best Streak:</span>
+					<span class="stats-value" id ="statsBestStreak">0</span>
+				</p>
+
+
+			</div>
+
+			<h3 data-i18n="statsBangbooTitle">Bangboo</h3>
+
+			<div class="stats-grid">
+
+				<p>
+				<span class="stats-label" data-i18n="statsCompletedGames">Completed Games:</span>
+				<span class="stats-value" id="bangbooStatsGames">0</span>
+				</p>
+
+				<p>
+				<span class="stats-label" data-i18n="statsTotalTries">Total Tries:</span>
+				<span class="stats-value" id="bangbooStatsAttempts">0</span>
+				</p>
+
+				<p>
+				<span class="stats-label" data-i18n="statsAverageTries">Average Streak:</span>
+				<span class="stats-value" id="bangbooStatsAverage">0</span>
+				</p>
+
+				<p>
+				<span class="stats-label" data-i18n="statsCurrentStreak">Win Streak:</span>
+				<span class="stats-value" id="bangbooStatsCurrentStreak">0</span>
+				</p>
+
+				<p>
+				<span class="stats-label" data-i18n="statsBestStreak">Best Streak:</span>
+				<span class="stats-value" id="bangbooStatsBestStreak">0</span>
+				</p>
+
+			</div>
+
+			<div class="save-transfer">
+				<h3 data-i18n="saveTransferTitle">Create or Load saves</h3>
+
+				<textarea id="saveCodeField" placeholder="Save code"  data-i18n-placeholder="saveCodePlaceholder" rows="5"></textarea>
+
+				<div class="save-buttons">
+					<button id="createSaveCodeButton" type="button" data-i18n="createSaveCodeButton"> Create Code </button>
+					<button id="loadSaveCodeButton" type="button" data-i18n="loadSaveCodeButton"> Load Code </button>
+				</div>
+			</div>
+		</dialog>
+
+
+	<script src="Data/translations.js"></script>
+	<script src="Data/Constants.js"> </script>
 	<script src="Data/function.js"> </script>
 	<script src="Data/agent.js"></script>
+	<script src="Data/bangboo.js"></script>
 	<script src="script.js"> </script>
-	
+
 
 </body>
 
