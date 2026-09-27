@@ -40,20 +40,19 @@
 					Statistics
 				</button>
 				
-				<a
+				<button
+					id="supportButton"
 					class="kofi-link"
-					href="https://ko-fi.com/pichjei"
-					target="_blank"
-					rel="noopener noreferrer"
-					aria-label="Support me on Ko-fi"
+					type="button"
+					aria-label="Ko-fi"
 					title="Ko-fi"
-				>
+>
 					<img
 						src="Data/Image/UI/kofi_symbol.svg"
 						alt=""
 						aria-hidden="true"
 					>
-				</a>
+				</button>
 
 				<button id="languageButton" type="button">
 					RU
@@ -347,6 +346,12 @@
 					Close
 				</button>
 			</div>
+			
+			
+			
+			
+			
+			
 
 			<div class="rules-content">
 				<section class="rules-section">
@@ -495,6 +500,37 @@
 					</div>
 				</section>
 			</div>
+		</dialog>
+		
+		<dialog id="supportDialog" aria-labelledby="supportDialogTitle">
+				<div class="support-dialog-header">
+					<h2 id="supportDialogTitle" data-i18n="supportDialogTitle">
+						Support DLE Zenless
+					</h2>
+
+					<button
+						id="closeSupportButton"
+						type="button"
+						data-i18n="closeButton"
+					>
+						Close
+					</button>
+				</div>
+
+				<p class="support-dialog-text" data-i18n="supportDialogText">
+					If you enjoy DLE Zenless and would like to see new modes,
+					agents, and other improvements, you can buy me a coffee.
+				</p>
+
+				<a
+					class="support-dialog-link"
+					href="https://ko-fi.com/pichjei"
+					target="_blank"
+					rel="noopener noreferrer"
+					data-i18n="supportDialogButton"
+				>
+					Support on Ko-fi
+				</a>
 		</dialog>
 
 		<dialog id="statsDialog" aria-labelledby="statsDialogTitle">

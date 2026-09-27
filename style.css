@@ -967,6 +967,57 @@ textarea:focus-visible,
     object-fit: contain;
 }
 
+#supportDialog {
+    width: min(520px, calc(100% - 32px));
+    padding: 24px;
+
+    border: none;
+    border-radius: 12px;
+
+    background: #333;
+    color: white;
+}
+
+#supportDialog::backdrop {
+    background: rgba(0, 0, 0, 0.7);
+}
+
+.support-dialog-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.support-dialog-header h2 {
+    margin: 0;
+}
+
+.support-dialog-text {
+    margin: 22px 0;
+    line-height: 1.6;
+    color: #eee;
+}
+
+.support-dialog-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 11px 16px;
+    border-radius: 8px;
+
+    background: #ff6433;
+    color: white;
+
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.support-dialog-link:hover {
+    background: #ff7a52;
+}
+
 
 
 
@@ -1108,7 +1159,8 @@ textarea:focus-visible,
 
 @media (max-width: 600px) {
     #rulesDialog,
-    #statsDialog {
+    #statsDialog,
+	#supportDialog	{
         width: calc(100% - 16px);
         max-height: calc(100vh - 16px);
         padding: 16px;

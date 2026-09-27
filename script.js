@@ -110,6 +110,10 @@ const bangbooDailyTimer = document.querySelector("#bangbooDailyTimer");
 const dailyResetTimeElements = document.querySelectorAll(".daily-reset-time");
 const dailyResetReloadButtons = document.querySelectorAll(".daily-reset-reload");
 
+const supportButton = document.querySelector("#supportButton");
+const supportDialog = document.querySelector("#supportDialog");
+const closeSupportButton = document.querySelector("#closeSupportButton");
+
 
 let dailyResetTimerId = null;
 
@@ -342,6 +346,28 @@ endlessAnswerInput.addEventListener("input", function() {
 	closeStatsButton.addEventListener("click", function(){
 		statsDialog.close();
 		
+	});
+	
+	supportButton.addEventListener("click", function() {
+		supportDialog.showModal();
+	});
+
+	closeSupportButton.addEventListener("click", function() {
+		supportDialog.close();
+	});
+	
+	supportDialog.addEventListener("click", function(event) {
+		const dialogPosition = supportDialog.getBoundingClientRect();
+
+		const clickedOutside =
+			event.clientX < dialogPosition.left ||
+			event.clientX > dialogPosition.right ||
+			event.clientY < dialogPosition.top ||
+			event.clientY > dialogPosition.bottom;
+
+		if (clickedOutside) {
+			supportDialog.close();
+		}
 	});
 	
 	rulesButton.addEventListener("click", function() {
