@@ -66,6 +66,8 @@
 		<div class="mode-tabs">
 			<button class="mode-tab active" type="button" data-mode="classic" aria-pressed="true" data-i18n="navigationClassic">Classic</button>
 			<button	class="mode-tab" type="button" data-mode="endless" aria-pressed="false" data-i18n="navigationEndless">Endless</button>
+			<button class="mode-tab" type="button" data-mode="pixel" aria-pressed="false" data-i18n="navigationPixel">Pixel</button>
+			<button class="mode-tab" type="button" data-mode="splash" aria-pressed="false" data-i18n="navigationSplash">Splash Art</button>
 		</div>
 	</nav>
 
@@ -242,6 +244,79 @@
 			</div>
 		</div>
 
+		<div class="mode-panel" data-panel="pixel">
+			<div class="game pixel-game">
+				<h1 id="pixelTitle" data-i18n="navigationPixel">Pixel</h1>
+		
+				<div class="pixel-portrait-frame">
+					<canvas
+						id="pixelCanvas"
+						width="720"
+						height="960"
+						role="img"
+						aria-labelledby="pixelTitle"
+					></canvas>
+				</div>
+
+				<p id="pixelImageStatus" role="status"></p>
+
+				<div class="search-box">
+					<input
+						id="pixelAnswerInput"
+						type="text"
+						placeholder="Enter an agent"
+						data-i18n-placeholder="agentInputPlaceholder"
+						autocomplete="off"
+					>
+
+					<div
+						id="pixelAgentSuggestions"
+						class="suggestions"
+					></div>
+				</div>
+
+				<p id="pixelFeedback" role="status" hidden></p>
+				<button id="pixelShareButton" type="button" data-i18n="shareResultButton" hidden>Share</button>
+				<div id="pixelShareFeedback" hidden>
+					<p id="pixelShareStatus" role="status"></p>
+					<textarea id="pixelShareText" rows="6" readonly hidden aria-labelledby="pixelShareButton"></textarea>
+				</div>
+				<div id="pixelDailyTimer" class="daily-reset-timer" hidden>
+					<span data-i18n="nextPuzzleIn">Next puzzle in</span>
+					<strong class="daily-reset-time">00:00:00</strong>
+				</div>
+				<button id="pixelReloadButton" class="daily-reset-reload" type="button" data-i18n="reloadNewPuzzle" hidden>Load new puzzle</button>
+
+				<div id="pixelAttempts"></div>
+			</div>
+		</div>
+
+		<div class="mode-panel" data-panel="splash">
+			<div class="game splash-game">
+				<h1 id="splashTitle" data-i18n="navigationSplash">Splash Art</h1>
+				<div class="splash-image-frame">
+					<canvas id="splashCanvas" width="1200" height="675" role="img" aria-labelledby="splashTitle"></canvas>
+				</div>
+				<p id="splashImageStatus" role="status"></p>
+				<div class="search-box">
+					<input id="splashAnswerInput" type="text" autocomplete="off" disabled data-i18n-placeholder="agentInputPlaceholder" placeholder="Enter an agent">
+					<div id="splashAgentSuggestions" class="suggestions"></div>
+				</div>
+				<p id="splashFeedback" role="status" hidden></p>
+				<button id="splashShareButton" type="button" data-i18n="shareResultButton" hidden>Share</button>
+				<div id="splashShareFeedback" hidden>
+					<p id="splashShareStatus" role="status"></p>
+					<textarea id="splashShareText" rows="6" readonly hidden aria-labelledby="splashShareButton"></textarea>
+				</div>
+				<div id="splashDailyTimer" class="daily-reset-timer" hidden>
+					<span data-i18n="nextPuzzleIn">Next puzzle in</span>
+					<strong class="daily-reset-time">00:00:00</strong>
+				</div>
+				<button id="splashReloadButton" class="daily-reset-reload" type="button" data-i18n="reloadNewPuzzle" hidden>Load new puzzle</button>
+				<div id="splashAttempts"></div>
+			</div>
+		</div>
+
 		<div class="mode-panel" data-panel="bangbo">
 			<div class="game bangboo-game">
 				<div class="bangboo-question-card">
@@ -337,6 +412,7 @@
 
 			</div>
 		</div>
+
 
 		<dialog id="rulesDialog" aria-labelledby="rulesDialogTitle">
 			<div class="rules-dialog-header">
@@ -465,6 +541,15 @@
 					</div>
 				</section>
 
+				<section class="rules-section">
+					<h3 data-i18n="navigationPixel">Pixel</h3>
+					<p data-i18n="pixelRulesIntro">Guess the agent from their pixelated silhouette.</p>
+				</section>
+
+				<section class="rules-section">
+					<h3 data-i18n="navigationSplash">Splash Art</h3>
+					<p data-i18n="splashRulesIntro">Guess the agent from a fragment of their splash art.</p>
+				</section>
 				<section class="rules-section">
 					<h3 data-i18n="bangbooRulesTitle">Bangboo</h3>
 
@@ -604,14 +689,35 @@
 
 			</div>
 
+			<h3 data-i18n="statsPixelTitle">Pixel</h3>
+			<div class="stats-grid">
+				<p><span class="stats-label" data-i18n="statsCompletedGames">Completed Games</span><span class="stats-value" id="pixelStatsGames">0</span></p>
+				<p><span class="stats-label" data-i18n="statsTotalTries">Total Tries</span><span class="stats-value" id="pixelStatsAttempts">0</span></p>
+				<p><span class="stats-label" data-i18n="statsAverageTries">Average Tries</span><span class="stats-value" id="pixelStatsAverage">0</span></p>
+				<p><span class="stats-label" data-i18n="statsCurrentStreak">Current Streak</span><span class="stats-value" id="pixelStatsCurrentStreak">0</span></p>
+				<p><span class="stats-label" data-i18n="statsBestStreak">Best Streak</span><span class="stats-value" id="pixelStatsBestStreak">0</span></p>
+			</div>
+
+			<h3 data-i18n="navigationSplash">Splash Art</h3>
+			<div class="stats-grid">
+				<p><span class="stats-label" data-i18n="statsCompletedGames">Completed Games</span><span class="stats-value" id="splashStatsGames">0</span></p>
+				<p><span class="stats-label" data-i18n="statsWins">Wins</span><span class="stats-value" id="splashStatsWins">0</span></p>
+				<p><span class="stats-label" data-i18n="statsLosses">Losses</span><span class="stats-value" id="splashStatsLosses">0</span></p>
+				<p><span class="stats-label" data-i18n="statsTotalTries">Total Tries</span><span class="stats-value" id="splashStatsAttempts">0</span></p>
+				<p><span class="stats-label" data-i18n="statsAverageTries">Average Tries</span><span class="stats-value" id="splashStatsAverage">0</span></p>
+				<p><span class="stats-label" data-i18n="statsCurrentStreak">Current Streak</span><span class="stats-value" id="splashStatsCurrentStreak">0</span></p>
+				<p><span class="stats-label" data-i18n="statsBestStreak">Best Streak</span><span class="stats-value" id="splashStatsBestStreak">0</span></p>
+			</div>
+
 			<div class="save-transfer">
 				<h3 data-i18n="saveTransferTitle">Create or Load saves</h3>
 
-				<textarea id="saveCodeField" placeholder="Save code"  data-i18n-placeholder="saveCodePlaceholder" rows="5"></textarea>
+				<input id="saveFileInput" type="file" accept=".json,.txt,application/json,text/plain" hidden>
+				<p id="saveTransferStatus" role="status"></p>
 
 				<div class="save-buttons">
-					<button id="createSaveCodeButton" type="button" data-i18n="createSaveCodeButton"> Create Code </button>
-					<button id="loadSaveCodeButton" type="button" data-i18n="loadSaveCodeButton"> Load Code </button>
+					<button id="downloadSaveButton" type="button" data-i18n="downloadSaveButton"> Download save </button>
+					<button id="uploadSaveButton" type="button" data-i18n="uploadSaveButton"> Load save </button>
 				</div>
 			</div>
 		</dialog>
@@ -622,6 +728,7 @@
 	<script src="Data/function.js"> </script>
 	<script src="Data/agent.js"></script>
 	<script src="Data/bangboo.js"></script>
+	<script src="Data/splash.js"></script>
 	<script src="script.js"> </script>
 
 

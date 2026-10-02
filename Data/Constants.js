@@ -23,6 +23,7 @@ const races = {
 };
 
 const specialtyImages = {
+  armorer: "Data/Image/Specialty/Armorer.webp",
   anomaly: "Data/Image/Specialty/Anomaly.webp",
   attack: "Data/Image/Specialty/Attack.webp",
   defense: "Data/Image/Specialty/Defense.webp",
@@ -41,6 +42,7 @@ const attackTypeImages = {
 };
 
 const factionImages = {
+  flint: "Data/Image/Factions/Flint.webp",
   angels: "Data/Image/Factions/Angels.webp",
   APD: "Data/Image/Factions/APD.webp",
   belobog: "Data/Image/Factions/Belobog.webp",
@@ -67,6 +69,7 @@ const factionImages = {
 };
 
 const weeklyBoss = {
+  kusarikku: "Data/Image/Boss/Kusarikku.webp",
   bringer: "Data/Image/Boss/Bringer.webp",
   butcher: "Data/Image/Boss/Butcher.webp",
   complex: "Data/Image/Boss/Complex.webp",
@@ -80,6 +83,7 @@ const weeklyBoss = {
 };
 
 const materials = {
+  imitationCore: "Data/Image/Material/ImitationCore.gif",
   advance: "Data/Image/Material/Advance.gif",
   awe: "Data/Image/Material/Awe.gif",
   circuit: "Data/Image/Material/Circuit.gif",

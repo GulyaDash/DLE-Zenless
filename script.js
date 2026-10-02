@@ -29,6 +29,57 @@ const dailyIndex = Math.floor((dailySeed % 1) * agents.length);
 
 const correctAnswer = agents[dailyIndex];
 
+// Ежедневный агент для режима «Пиксели»
+const pixelDailySeed = Math.abs(Math.sin(dayNumber + 404) * 10000);
+const pixelDailyIndex = Math.floor((pixelDailySeed % 1) * agents.length);
+const pixelCorrectAnswer = agents[pixelDailyIndex];
+
+const pixelCanvas = document.querySelector("#pixelCanvas");
+const pixelContext = pixelCanvas.getContext("2d");
+const pixelAnswerInput = document.querySelector("#pixelAnswerInput");
+const pixelAgentSuggestions = document.querySelector("#pixelAgentSuggestions");
+const pixelAttempts = document.querySelector("#pixelAttempts");
+const pixelFeedback = document.querySelector("#pixelFeedback");
+const pixelImageStatus = document.querySelector("#pixelImageStatus");
+const pixelDailyTimer = document.querySelector("#pixelDailyTimer");
+const pixelShareButton = document.querySelector("#pixelShareButton");
+const pixelShareFeedback = document.querySelector("#pixelShareFeedback");
+const pixelShareStatus = document.querySelector("#pixelShareStatus");
+const pixelShareText = document.querySelector("#pixelShareText");
+const pixelStorageKey = "pixelAnswers-" + dayNumber;
+
+// Начальный уровень и пять улучшений после ошибок.
+// Число — разрешение по длинной стороне портрета.
+const pixelResolutionLevels = [8, 12, 16, 22, 30, 40];
+
+// Сдвиг сетки меняется каждый день, но одинаков для всех игроков этого дня.
+// Он не зависит от попыток и не сбрасывается при перезагрузке.
+const pixelGridOffset = {
+    x: (Math.abs(Math.sin(dayNumber + 505) * 10000) % 1),
+    y: (Math.abs(Math.sin(dayNumber + 606) * 10000) % 1)
+};
+
+let pixelWrongGuesses = 0;
+let pixelSolved = false;
+let pixelUsedAnswers = [];
+let pixelFeedbackKey = "";
+let pixelImageState = "pixelImageLoading";
+
+const pixelPortraitImage = new Image();
+
+pixelPortraitImage.addEventListener("load", function() {
+    pixelImageState = "";
+    renderPixelText();
+    drawPixelPortrait();
+});
+
+pixelPortraitImage.addEventListener("error", function() {
+    pixelImageState = "pixelImageUnavailable";
+    renderPixelText();
+});
+
+pixelPortraitImage.src = pixelCorrectAnswer.pixelImage;
+
 const statsButton = document.querySelector("#statsButton");
 const statsDialog = document.querySelector("#statsDialog");
 const closeStatsButton = document.querySelector("#closeStatsButton");
@@ -53,9 +104,9 @@ const bangbooStatsBestStreak = document.querySelector("#bangbooStatsBestStreak")
 
 const resetStatsButton = document.querySelector("#resetStatsButton");
 
-const saveCodeField = document.querySelector("#saveCodeField");
-const createSaveCodeButton = document.querySelector("#createSaveCodeButton");
-const loadSaveCodeButton = document.querySelector("#loadSaveCodeButton");
+const saveFileInput = document.querySelector("#saveFileInput");
+const downloadSaveButton = document.querySelector("#downloadSaveButton");
+const uploadSaveButton = document.querySelector("#uploadSaveButton");
 
 const endlessResultCard = document.querySelector("#endlessResultCard");
 const endlessResultPortrait = document.querySelector("#endlessResultPortrait");
@@ -78,6 +129,8 @@ const bangbooShareButton = document.querySelector("#bangbooShareButton");
 const bangbooShareFeedback = document.querySelector("#bangbooShareFeedback");
 const bangbooShareStatus = document.querySelector("#bangbooShareStatus");
 const bangbooShareText = document.querySelector("#bangbooShareText");
+
+
 
 
 //_____________________Переменык для Endless
@@ -182,7 +235,7 @@ const storageKey = "usedAnswers-" + dayNumber;
 const savedAnswers = localStorage.getItem(storageKey);
 
 
-const usedAnswer = savedAnswers ? JSON.parse(savedAnswers): [];
+const usedAnswer = savedAnswers ? parseAgentSave(savedAnswers): [];
  
  let selectedSuggestionIndex = -1;
  
@@ -223,6 +276,9 @@ if (bangbooStats.lastCompletedDay !== null && bangbooStats.lastCompletedDay < da
 	localStorage.setItem(bangbooStatsKey,JSON.stringify(bangbooStats));
 }
 
+const pixelStatsKey = "pixelStats";
+const pixelStats = loadPixelStatistics();
+
 initializeBangbooMode();
 restoreBangbooProgress();
 
@@ -252,6 +308,22 @@ if (isGameFinished){
 }
 
 loadEndlessRound();
+restorePixelProgress();
+startDailyResetTimer();
+
+["click", "input"].forEach(function(eventName) {
+    pixelAnswerInput.addEventListener(eventName, function() {
+        if (pixelAnswerInput.disabled) return;
+        showCharacterSuggestions(pixelAnswerInput, pixelAgentSuggestions,
+            pixelUsedAnswers, checkPixelAnswer, agents, "image");
+    });
+});
+
+pixelAnswerInput.addEventListener("keydown", function(event) {
+    handleSuggestionKeydown(event, pixelAgentSuggestions, checkPixelAnswer);
+});
+
+pixelShareButton.addEventListener("click", sharePixelResult);
 
 function checkClassicAnswer() {	
 
@@ -332,6 +404,8 @@ endlessAnswerInput.addEventListener("input", function() {
 			agentSuggestions.textContent = "";
 			endlessAgentSuggestions.textContent = "";
 			bangbooSuggestions.textContent = "";
+			pixelAgentSuggestions.textContent = "";
+			if (splashMode) splashMode.suggestions.textContent = "";
 			selectedSuggestionIndex = -1;
 		}
 	});
@@ -339,6 +413,8 @@ endlessAnswerInput.addEventListener("input", function() {
 	statsButton.addEventListener("click", function(){
 		updateStatWindow();
 		updateBangbooStatWindow();
+		updatePixelStatWindow();
+		updateSplashStatWindow();
 		statsDialog.showModal();
 		
 	});
@@ -436,6 +512,8 @@ resetStatsButton.addEventListener("click", function() {
 	localStorage.removeItem(storageKey);
 	
 	localStorage.removeItem(bangbooStatsKey);
+	localStorage.removeItem(pixelStatsKey);
+	localStorage.removeItem(splashStatsKey);
 	localStorage.removeItem(bangbooStorageKey);
 	
 	localStorage.removeItem(endlessScoreKey);
@@ -446,7 +524,9 @@ resetStatsButton.addEventListener("click", function() {
 	Object.keys(localStorage).forEach(function(key) {
 	if (
 		key.startsWith("usedAnswers-") ||
-		key.startsWith("bangbooAnswers-")
+		key.startsWith("bangbooAnswers-") ||
+		key.startsWith("pixelAnswers-") ||
+		key.startsWith("splashAnswers-")
 		) {
 		localStorage.removeItem(key);
 		}
@@ -459,16 +539,16 @@ resetStatsButton.addEventListener("click", function() {
 
 
 //_____________________Сохронение
-createSaveCodeButton.addEventListener("click", function() { 
-	createSaveCode();
+downloadSaveButton.addEventListener("click", function() { 
+	downloadSaveFile();
   }
 );
 
 
 
 //_____________________Загрузка
-loadSaveCodeButton.addEventListener("click", function() {
-    loadSaveCode();
+uploadSaveButton.addEventListener("click", function() {
+    saveFileInput.click();
   }
 );
 
@@ -548,3 +628,7 @@ dailyResetReloadButtons.forEach(function(button) {
     });
 });
 // 3. Когда нажали — вывести сообщение
+
+ saveFileInput.addEventListener("change", function() { loadSaveFile(saveFileInput.files[0]); });
+
+initializeSplashMode();
