@@ -28,9 +28,9 @@ If you have any ideas or suggestions, or if you find a bug, I'd be happy to hear
 Supporting the project is completely optional, but any support would give me some extra motivation to update and develop it more often.
 And if you'd like, you can also just send me a little gift in Zenless.
 
-## https://ko-fi.com/pichjei
+### https://ko-fi.com/pichjei
 
-## UID:1506212520
+### UID:1506212520
 
 
 
@@ -64,6 +64,6 @@ And if you'd like, you can also just send me a little gift in Zenless.
 Поддерживать проект совершенно не обязательно, но любая поддержка даст мне дополнительную мотивацию чаще обновлять и развивать его.
 Также, если захотите, можете просто отправить мне подарочек в Zenless.
 
-## https://ko-fi.com/pichjei
+### https://ko-fi.com/pichjei
 
-## UID:1506212520
+### UID:1506212520
