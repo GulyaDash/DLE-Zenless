@@ -2,7 +2,7 @@
 
 I'm making this project mainly for fun. I wanted to see more variety among DLE-style games for Zenless Zone Zero, so I decided to create my own version with several different game modes.
 
-###[Play DLE Zenless](https://gulyadash.github.io/DLE-Zenless/)
+### [Play DLE Zenless](https://gulyadash.github.io/DLE-Zenless/)
 
 ## Game Modes
 
