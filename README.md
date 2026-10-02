@@ -1,6 +1,8 @@
-# DLE-Zenless
+# DLE-Zenless 
 
 I'm making this project mainly for fun. I wanted to see more variety among DLE-style games for Zenless Zone Zero, so I decided to create my own version with several different game modes.
+
+###[Play DLE Zenless](https://gulyadash.github.io/DLE-Zenless/)
 
 ## Game Modes
 
@@ -37,6 +39,8 @@ And if you'd like, you can also just send me a little gift in Zenless.
 # DLE Zenless
 Этот проект я делаю в первую очередь для души. Мне хотелось больше разнообразия среди DLE по Zenless Zone Zero, поэтому я решил сделать свой вариант с несколькими разными режимами.
 
+### [Играть в DLE Zenless](https://gulyadash.github.io/DLE-Zenless/)
+
 ## Режимы
 
 ### Классика
@@ -67,3 +71,4 @@ And if you'd like, you can also just send me a little gift in Zenless.
 ### https://ko-fi.com/pichjei
 
 ### UID:1506212520
+
