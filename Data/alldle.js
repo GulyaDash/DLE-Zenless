@@ -26,7 +26,9 @@ const alldleResults = (() => {
             }
             const result = { won: true, attempts, puzzleId: String(puzzleDay) };
             if (maxAttempts !== undefined) result.maxAttempts = maxAttempts;
-            await client.completeMode(mode, result);
+            // AllDle calls the Splash Art mode "splashart"; locally it is "splash".
+            const remoteMode = mode === "splash" ? "splashart" : mode;
+            await client.completeMode(remoteMode, result);
             // SDK swallows transport errors: do not persist a local success flag.
             // Reloading reports restored wins again; AllDle owns daily completion.
         } catch {
