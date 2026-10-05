@@ -796,6 +796,7 @@ function checkBangbooAnswer() {
 
 //________Проверка победы для банбу
 function finishBangbooGame() {
+	reportAllDleWin("bangboo", bangbooUsedAnswers.length);
 	
 	recordBangbooWinStatistics(bangbooUsedAnswers.length);
 	updateBangbooStatWindow();
@@ -1004,6 +1005,7 @@ function updateEndlessAttemptSquares(failedAttempts) {
 
 //________показывает результата
 function showClassicResult() {
+    reportAllDleWin("classic", usedAnswer.length);
     classicResultPortrait.src = correctAnswer.image;
     classicResultPortrait.alt = correctAnswer.name;
 
@@ -1509,6 +1511,7 @@ function loadPixelStatistics() {
 }
 
 function recordPixelWinStatistics() {
+    reportAllDleWin("pixel", pixelUsedAnswers.length);
     addPixelWinToStatistics(pixelStats, dayNumber, pixelUsedAnswers.length);
     localStorage.setItem(pixelStatsKey, JSON.stringify(pixelStats));
 }

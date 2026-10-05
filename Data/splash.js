@@ -220,6 +220,9 @@ function loadSplashStatistics() {
 }
 
 function recordSplashResult() {
+    if (splashMode.answers.includes(splashMode.answer.name)) {
+        reportAllDleWin("splash", splashMode.answers.length, splashMaxAttempts);
+    }
     addSplashResult(splashStats, getSplashSave());
     localStorage.setItem(splashStatsKey, JSON.stringify(splashStats));
 }
