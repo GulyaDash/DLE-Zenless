@@ -8,7 +8,7 @@ const attempts = document.querySelector("#attempts");
 const modeTabs = document.querySelectorAll(".mode-tab");
 const modePanels = document.querySelectorAll(".mode-panel");
 const categoryTabs = document.querySelectorAll(".category-tab");
-const modeTabsContainer = document.querySelector(".mode-tabs");
+const modeTabsContainers = document.querySelectorAll("[data-modes]");
 
 const agentSuggestions = document.querySelector("#agentSuggestions");
 //const correctAnswer = agents[0];
@@ -165,6 +165,10 @@ const dailyResetReloadButtons = document.querySelectorAll(".daily-reset-reload")
 
 const supportButton = document.querySelector("#supportButton");
 const supportDialog = document.querySelector("#supportDialog");
+const updatesButton = document.querySelector("#updatesButton");
+const updatesDialog = document.querySelector("#updatesDialog");
+const updatesVersion = releaseNotes[0].version;
+const viewedUpdatesVersionKey = "viewedUpdatesVersion";
 const closeSupportButton = document.querySelector("#closeSupportButton");
 
 
@@ -406,6 +410,7 @@ endlessAnswerInput.addEventListener("input", function() {
 			bangbooSuggestions.textContent = "";
 			pixelAgentSuggestions.textContent = "";
 			if (splashMode) splashMode.suggestions.textContent = "";
+			document.querySelector('[data-panel="location"] .suggestions').replaceChildren();
 			selectedSuggestionIndex = -1;
 		}
 	});
@@ -415,6 +420,7 @@ endlessAnswerInput.addEventListener("input", function() {
 		updateBangbooStatWindow();
 		updatePixelStatWindow();
 		updateSplashStatWindow();
+		updateLocationStatWindow();
 		statsDialog.showModal();
 		
 	});
@@ -426,6 +432,18 @@ endlessAnswerInput.addEventListener("input", function() {
 	
 	supportButton.addEventListener("click", function() {
 		supportDialog.showModal();
+	});
+
+	updatesButton.classList.toggle(
+		"has-unread-update",
+		localStorage.getItem(viewedUpdatesVersionKey) !== updatesVersion
+	);
+
+	updatesButton.addEventListener("click", function() {
+		renderReleaseNotes();
+		updatesDialog.showModal();
+		updatesButton.classList.remove("has-unread-update");
+		localStorage.setItem(viewedUpdatesVersionKey, updatesVersion);
 	});
 
 	closeSupportButton.addEventListener("click", function() {
@@ -526,7 +544,8 @@ resetStatsButton.addEventListener("click", function() {
 		key.startsWith("usedAnswers-") ||
 		key.startsWith("bangbooAnswers-") ||
 		key.startsWith("pixelAnswers-") ||
-		key.startsWith("splashAnswers-")
+		key.startsWith("splashAnswers-") ||
+		key.startsWith("locationAnswers-")
 		) {
 		localStorage.removeItem(key);
 		}
@@ -563,52 +582,27 @@ bangbooShareButton.addEventListener(
 );
 
 modeTabs.forEach(function(tab) {
-	
 	tab.addEventListener("click", function() {
-		modeTabs.forEach(function(otherTab) {
-			otherTab.classList.remove("active");
-			otherTab.setAttribute("aria-pressed", "false");
+		tab.closest("[data-modes]").querySelectorAll(".mode-tab").forEach(function(otherTab) {
+			otherTab.classList.toggle("active", otherTab === tab);
+			otherTab.setAttribute("aria-pressed", String(otherTab === tab));
 		});
-
-		tab.classList.add("active");
-
 		showModePanel(tab.dataset.mode);
-		tab.setAttribute("aria-pressed", "true");
+		if (tab.dataset.mode === "location") openLocationMode();
 	});
+});
 
-	
-	categoryTabs.forEach(function(tab) {
-		tab.addEventListener("click", function() {
-			categoryTabs.forEach(function(otherTab) {
-				otherTab.classList.remove("active");
-				otherTab.setAttribute("aria-pressed", "false");
-			});
-
-			tab.classList.add("active");
-			tab.setAttribute("aria-pressed", "true");
-
-			const selectedCategory = tab.dataset.category;
-
-			if (selectedCategory === "bangbo") {
-				modeTabsContainer.hidden = true;
-				showModePanel("bangbo");
-				return;
-			}
-
-			modeTabsContainer.hidden = false;
-
-			const activeModeTab = document.querySelector(".mode-tab.active");
-	
-			if (activeModeTab) {
-				showModePanel(activeModeTab.dataset.mode);
-			} else {
-				showModePanel("classic");
-			}
+categoryTabs.forEach(function(tab) {
+	tab.addEventListener("click", function() {
+		categoryTabs.forEach(function(otherTab) {
+			otherTab.classList.toggle("active", otherTab === tab);
+			otherTab.setAttribute("aria-pressed", String(otherTab === tab));
+		});
+		modeTabsContainers.forEach(function(container) {
+			container.hidden = container.dataset.modes !== tab.dataset.category;
+			if (!container.hidden) container.querySelector(".mode-tab.active").click();
 		});
 	});
-	
-	
-	
 });
 
 answerInput.addEventListener("keydown", function(event) {

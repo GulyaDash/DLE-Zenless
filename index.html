@@ -38,8 +38,8 @@
 			<button class="category-tab active" type="button" data-category="agent"  aria-pressed="true" data-i18n="navigationAgents">
 				Agent
 			</button>
-			<button	class="category-tab" type="button" data-category="bangbo"  aria-pressed="false" data-i18n="navigationBangboo">
-				Bangboo
+			<button class="category-tab" type="button" data-category="other" aria-pressed="false" data-i18n="navigationOther">
+				Other
 			</button>
 
 
@@ -66,6 +66,10 @@
 					>
 				</button>
 
+				<button id="updatesButton" type="button" aria-haspopup="dialog" data-i18n="navigationUpdates">
+					Updates
+				</button>
+
 				<button id="languageButton" type="button">
 					RU
 				</button>
@@ -75,11 +79,15 @@
 
 
 
-		<div class="mode-tabs">
+		<div class="mode-tabs" data-modes="agent">
 			<button class="mode-tab active" type="button" data-mode="classic" aria-pressed="true" data-i18n="navigationClassic">Classic</button>
 			<button	class="mode-tab" type="button" data-mode="endless" aria-pressed="false" data-i18n="navigationEndless">Endless</button>
 			<button class="mode-tab" type="button" data-mode="pixel" aria-pressed="false" data-i18n="navigationPixel">Pixel</button>
 			<button class="mode-tab" type="button" data-mode="splash" aria-pressed="false" data-i18n="navigationSplash">Splash Art</button>
+		</div>
+		<div class="mode-tabs" data-modes="other" hidden>
+			<button class="mode-tab active" type="button" data-mode="bangbo" aria-pressed="true" data-i18n="navigationBangboo">Bangboo</button>
+			<button class="mode-tab" type="button" data-mode="location" aria-pressed="false" data-i18n="navigationLocation">Locations</button>
 		</div>
 	</nav>
 
@@ -329,6 +337,32 @@
 			</div>
 		</div>
 
+		<div class="mode-panel" data-panel="location">
+			<div class="game splash-game">
+				<h1 id="locationTitle" data-i18n="navigationLocation">Locations</h1>
+				<div class="splash-image-frame">
+					<canvas width="1200" height="675" role="img" aria-labelledby="locationTitle"></canvas>
+				</div>
+				<p data-location-status role="status"></p>
+				<div class="search-box">
+					<input type="text" autocomplete="off" disabled data-i18n-placeholder="locationInputPlaceholder" placeholder="Enter a location">
+					<div class="suggestions"></div>
+				</div>
+				<button id="locationShareButton" type="button" data-i18n="shareResultButton" hidden>Share</button>
+				<p data-location-feedback role="status" hidden></p>
+				<div id="locationShareFeedback" hidden>
+					<p id="locationShareStatus" role="status"></p>
+					<textarea id="locationShareText" rows="6" readonly hidden aria-labelledby="locationShareButton"></textarea>
+				</div>
+				<div class="daily-reset-timer" data-location-timer hidden>
+					<span data-i18n="nextPuzzleIn">Next puzzle in</span>
+					<strong class="daily-reset-time">00:00:00</strong>
+				</div>
+				<button class="daily-reset-reload" data-location-reload type="button" data-i18n="reloadNewPuzzle" hidden>Load new puzzle</button>
+				<div data-location-attempts></div>
+			</div>
+		</div>
+
 		<div class="mode-panel" data-panel="bangbo">
 			<div class="game bangboo-game">
 				<div class="bangboo-question-card">
@@ -563,6 +597,10 @@
 					<p data-i18n="splashRulesIntro">Guess the agent from a fragment of their splash art.</p>
 				</section>
 				<section class="rules-section">
+					<h3 data-i18n="navigationLocation">Locations</h3>
+					<p data-i18n="locationRules">Guess the location from a fragment of its artwork.</p>
+				</section>
+				<section class="rules-section">
 					<h3 data-i18n="bangbooRulesTitle">Bangboo</h3>
 
 					<p data-i18n="bangbooRulesIntro">
@@ -628,6 +666,14 @@
 				>
 					Support on Ko-fi
 				</a>
+		</dialog>
+
+		<dialog id="updatesDialog" aria-labelledby="updatesDialogTitle">
+			<form method="dialog" class="support-dialog-header">
+				<h2 id="updatesDialogTitle">A_00_01</h2>
+				<button type="submit" data-i18n="closeButton">Close</button>
+			</form>
+			<div id="updatesContent"></div>
 		</dialog>
 
 		<dialog id="statsDialog" aria-labelledby="statsDialogTitle">
@@ -721,6 +767,17 @@
 				<p><span class="stats-label" data-i18n="statsBestStreak">Best Streak</span><span class="stats-value" id="splashStatsBestStreak">0</span></p>
 			</div>
 
+			<div>
+				<h3 data-i18n="navigationLocation">Locations</h3>
+				<div class="stats-grid" id="locationStats">
+					<p><span class="stats-label" data-i18n="statsCompletedGames">Completed Games</span><span class="stats-value" data-location-stat="games">0</span></p>
+					<p><span class="stats-label" data-i18n="statsWins">Wins</span><span class="stats-value" data-location-stat="wins">0</span></p>
+					<p><span class="stats-label" data-i18n="statsLosses">Losses</span><span class="stats-value" data-location-stat="losses">0</span></p>
+					<p><span class="stats-label" data-i18n="statsTotalTries">Total Tries</span><span class="stats-value" data-location-stat="attempts">0</span></p>
+					<p><span class="stats-label" data-i18n="statsAverageTries">Average Tries</span><span class="stats-value" data-location-stat="average">0</span></p>
+				</div>
+			</div>
+
 			<div class="save-transfer">
 				<h3 data-i18n="saveTransferTitle">Create or Load saves</h3>
 
@@ -741,9 +798,12 @@
 	<script src="Data/Constants.js"> </script>
 	<script src="Data/function.js"> </script>
 	<script src="Data/agent.js"></script>
+	<script src="Data/updates.js"></script>
 	<script src="Data/bangboo.js"></script>
 	<script src="Data/splash.js"></script>
 	<script src="script.js"> </script>
+	<script src="Data/locations.js"></script>
+	<script src="Data/location-game.js"></script>
 
 
 </body>

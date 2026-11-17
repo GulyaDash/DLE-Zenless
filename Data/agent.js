@@ -439,6 +439,21 @@ const agents = [
 },
 
 {
+  name: "Severian Lowell",
+  race: "thiren",
+  rank: "S",
+  specialty: "attack",
+  attribute: "wind",
+  attackType: "slash",
+  faction: "MOD",
+  weeklyBoss: "girtablullu",
+  material: "imitationCore",
+  image: "Data/Image/Agent/Severian.webp",
+  pixelImage: "Data/Image/Portrait/Severian.png",
+  splashImage: "Data/Image/SpleshArt/Severian.png"
+},
+
+{
   name: "Jane Doe",
   race: "thiren",
   rank: "S",
@@ -699,6 +714,20 @@ const agents = [
 },
 
 //krampus 
+{
+  name: "Phoenix Reffaella",
+  race: "people",
+  rank: "S",
+  specialty: "anomaly",
+  attribute: "fire",
+  attackType: "slash",
+  faction: "krampus",
+  weeklyBoss: "kusarikku",
+  material: "feather",
+  image: "Data/Image/Agent/Phoenix.webp",
+  pixelImage: "Data/Image/Portrait/Phoenix.png",
+  splashImage: "Data/Image/SpleshArt/Phoenix.png"
+},
 
 {
   name: "Promeia",

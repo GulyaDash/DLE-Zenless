@@ -69,7 +69,7 @@ const factionImages = {
 };
 
 const weeklyBoss = {
-  kusarikku: "Data/Image/Boss/Kusarikku.webp",
+  kusarikku: "Data/Image/Boss/Kusarikku.png",
   bringer: "Data/Image/Boss/Bringer.webp",
   butcher: "Data/Image/Boss/Butcher.webp",
   complex: "Data/Image/Boss/Complex.webp",

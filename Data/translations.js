@@ -46,6 +46,12 @@ const translations = {
 
 		navigationAgents: "Agents",
 		navigationBangboo: "Bangboo",
+		navigationOther: "Other",
+		navigationLocation: "Locations",
+		locationInputPlaceholder: "Enter a location",
+		locationUnknown: "Choose a location from the list.",
+		locationLost: "Out of attempts. The location was {location}.",
+		locationRules: "Guess the location from a fragment of its artwork.",
 		navigationClassic: "Classic",
 		navigationEndless: "Endless",
 		navigationRules: "Rules",
@@ -113,6 +119,7 @@ const translations = {
 		nextPuzzleIn: "Next puzzle in",
 		reloadNewPuzzle: "Load new puzzle",
 		
+		navigationUpdates: "Updates",
 		supportDialogTitle: "Support DLE Zenless",
 		supportDialogText: "If you enjoy DLE Zenless and would like to see new modes, new agents, and other improvements, you can buy me a coffee ☕ Your support helps me spend more time updating the game and working on new ideas. Any amount is appreciated, but supporting the project is completely optional. Thanks for playing!",
 		supportDialogButton: "Support on Ko-fi",
@@ -182,6 +189,12 @@ const translations = {
 		
 		navigationAgents: "Агенты",
 		navigationBangboo: "Банбу",
+		navigationOther: "Другое",
+		navigationLocation: "Локации",
+		locationInputPlaceholder: "Введите название локации",
+		locationUnknown: "Выберите локацию из списка.",
+		locationLost: "Попытки закончились. Это {location}.",
+		locationRules: "Угадайте локацию по фрагменту изображения.",
 		navigationClassic: "Классика",
 		navigationEndless: "Бесконечный",
 		navigationRules: "Правила",
@@ -250,6 +263,7 @@ const translations = {
 		nextPuzzleIn: "Следующая загадка через",
 		reloadNewPuzzle: "Загрузить новую загадку",
 		
+		navigationUpdates: "Обновления",
 		supportDialogTitle: "Поддержать DLE Zenless",
 		supportDialogText: "Если тебе нравится DLE Zenless и хочется видеть новые режимы, свежих агентов и другие улучшения, можешь угостить меня кофе ☕ Поддержка помогает мне уделять проекту больше времени, обновлять игровые данные и воплощать новые идеи. Любая сумма будет приятна, но поддержка совершенно необязательна. Спасибо, что играешь!",
 		supportDialogButton: "Поддержать на Ko-fi",

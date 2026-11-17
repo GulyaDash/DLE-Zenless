@@ -925,6 +925,7 @@ function recordBangbooWinStatistics(attemptsNumber) {
 
 function showModePanel(selectedMode) {
 	if (splashMode) splashMode.suggestions.textContent = "";
+	document.querySelector('[data-panel="location"] .suggestions')?.replaceChildren();
 	[agentSuggestions, endlessAgentSuggestions, bangbooSuggestions, pixelAgentSuggestions]
 		.forEach(function(container) { container.textContent = ""; });
 	selectedSuggestionIndex = -1;
@@ -979,6 +980,7 @@ function setLanguage(language) {
 
     localStorage.setItem("siteLanguage", language);
     renderSplashMode();
+    if (typeof renderLocationMode === "function") renderLocationMode();
     renderPixelText();
 
     if (!pixelShareText.hidden && pixelSolved) {
@@ -1231,6 +1233,7 @@ function updateDailyResetTimer() {
 
     pixelAnswerInput.disabled = true;
     renderSplashMode();
+    if (typeof renderLocationMode === "function") renderLocationMode();
     pixelAgentSuggestions.textContent = "";
     if (!pixelSolved) {
         pixelFeedbackKey = "pixelNewDay";

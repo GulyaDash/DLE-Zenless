@@ -581,6 +581,10 @@ button {
   background: #444;
 }
 
+.global-actions #updatesButton.has-unread-update {
+  box-shadow: inset 0 -3px 0 #40e0d0;
+}
+
 .global-actions .kofi-link {
     display: inline-flex;
     align-items: center;
@@ -966,7 +970,8 @@ textarea:focus-visible,
     object-fit: contain;
 }
 
-#supportDialog {
+#supportDialog,
+#updatesDialog {
     width: min(520px, calc(100% - 32px));
     padding: 24px;
 
@@ -977,8 +982,74 @@ textarea:focus-visible,
     color: white;
 }
 
-#supportDialog::backdrop {
+#supportDialog::backdrop,
+#updatesDialog::backdrop {
     background: rgba(0, 0, 0, 0.7);
+}
+
+#updatesDialog {
+    width: min(640px, calc(100% - 32px));
+}
+
+#updatesDialogTitle,
+.update-agent h3,
+.update-modes {
+    background: #444;
+    border-radius: 8px;
+    padding: 10px 12px;
+}
+
+#updatesDialogTitle {
+    flex: 1;
+    text-align: center;
+}
+
+.update-agent {
+    display: grid;
+    grid-template-columns: clamp(64px, 18vw, 116px) minmax(0, 1fr);
+    gap: 12px;
+    margin-block: 16px;
+}
+
+.update-agent-portrait {
+    width: 100%;
+    aspect-ratio: 1;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.update-agent h3,
+.update-modes h3 {
+    margin: 0;
+}
+
+.update-traits {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(34px, 1fr));
+    gap: 6px;
+    list-style: none;
+    padding: 0;
+    margin: 8px 0 0;
+}
+
+.update-traits li {
+    display: grid;
+    place-items: center;
+    padding: 4px;
+    background: #444;
+    border-radius: 8px;
+}
+
+.update-traits img {
+    width: 100%;
+    max-width: 42px;
+    aspect-ratio: 1;
+    object-fit: contain;
+}
+
+.update-modes ul {
+    margin: 8px 0 0;
+    padding-inline-start: 20px;
 }
 
 .support-dialog-header {
@@ -1128,6 +1199,7 @@ textarea:focus-visible,
     .global-actions {
         order: -1;
         width: 100%;
+        flex-wrap: wrap;
         margin-left: 0;
         justify-content: flex-end;
     }
@@ -1166,7 +1238,7 @@ textarea:focus-visible,
     margin: 0 auto 20px;
 }
 
-#splashCanvas {
+.splash-image-frame canvas {
     display: block;
     width: 100%;
     height: 100%;
@@ -1181,7 +1253,17 @@ textarea:focus-visible,
     width: 100%;
 }
 
-#splashAttempts {
+#locationShareButton:not([hidden]) {
+    display: block;
+    margin: 12px auto 0;
+}
+
+[data-location-timer] {
+    justify-content: center;
+}
+
+#splashAttempts,
+[data-location-attempts] {
     display: grid;
     gap: 8px;
     margin-top: 20px;
@@ -1328,7 +1410,8 @@ textarea:focus-visible,
 @media (max-width: 600px) {
     #rulesDialog,
     #statsDialog,
-	#supportDialog	{
+	#supportDialog,
+	#updatesDialog {
         width: calc(100% - 16px);
         max-height: calc(100vh - 16px);
         padding: 16px;
