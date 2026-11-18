@@ -1,6 +1,6 @@
 // Official SDK: https://www.alldle.net/sdk (vendored version 0.1.1).
 const alldleResults = (() => {
-    const modes = new Set(["classic", "bangboo", "pixel", "splash"]);
+    const modes = new Set(["classic", "bangboo", "pixel", "splash", "locations"]);
     const submitted = new Set();
     let client = null;
     let connection = Promise.resolve(null);

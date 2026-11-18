@@ -1370,6 +1370,11 @@ textarea:focus-visible,
     border-left-color: #3b9b4f;
 }
 
+[data-location-attempts] .pixel-attempt {
+    grid-template-columns: minmax(0, 1fr);
+    text-align: start;
+}
+
 .pixel-attempt img {
     width: 48px;
     height: 48px;
